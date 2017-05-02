@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AndroidApp</string>
+    <string name="title_activity_login">Sign in</string>
+
+
+    <string name="title_activity_new_receipt">New receipt or guaranty</string>
+    <string name="title_activity_my_receipts">My receipts and guaranties </string>
+    <string name="btn_new_receipt">Add a new receipt or Guaranty</string>
+    <string name="btn_my_receipts">View receipts and guaranties</string>
+</resources>
