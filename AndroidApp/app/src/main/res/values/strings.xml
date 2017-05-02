@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AndroidApp</string>
+
+    <string name="btn_login">Log in</string>
+    <string name="btn_register">Sign in</string>
+    <string name="btn_logout">Logout</string>
+    <string name="btn_cancel">@android:string/cancel</string>
+    <string name="btn_link_to_register">Not a member? Sign up now.</string>
+    <string name="btn_link_to_login">Already registered? Login</string>
+</resources>
