@@ -10,7 +10,7 @@ import retrofit.HttpException;
  * Created by Damien on 5/3/2017.
  */
 
-class NetworkError {
+public class NetworkError {
     public String mMessage;
 
     public NetworkError(Throwable e) {

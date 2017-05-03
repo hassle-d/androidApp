@@ -1,21 +1,31 @@
 package com.androidapp.activity;
 
+import android.accounts.NetworkErrorException;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.androidapp.R;
+import com.androidapp.interfaces.MyCallback;
+import com.androidapp.network.Auth;
+import com.androidapp.network.NetworkError;
 
-public class LoginActivity extends AppCompatActivity {
-    private Button btnLogin;
-    private TextView btnLinkToRegister;
-    private EditText inputEmail;
-    private EditText inputPassword;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class LoginActivity extends AppCompatActivity implements MyCallback {
+
+    @BindView(R.id.btnLinkToRegisterScreen)     TextView btnLinkToRegister;
+    @BindView(R.id.email)                       EditText inputEmail;
+    @BindView(R.id.password)                    EditText inputPassword;
+
     private ProgressDialog pDialog;
     private String header;
 
@@ -23,33 +33,35 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnLinkToRegister = (TextView) findViewById(R.id.btnLinkToRegisterScreen);
+        ButterKnife.bind(this);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
+    }
 
+    @OnClick(R.id.btnLinkToRegisterScreen)
+    public void goToRegister() {
+        Intent i = new Intent(getApplicationContext(),
+                RegisterActivity.class);
+        startActivity(i);
+        finish();
+    }
 
-        // Login button Click Event
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-            }
-            // PUT THE API FUNCTION CALL HERE
-        });
+    @OnClick(R.id.btnLogin)
+    public void login() {
+        Auth auth = new Auth(this);
+        auth.login("login", inputEmail.getText().toString(), inputPassword.getText().toString());
+    }
 
-        // Register button Click Event
-        btnLinkToRegister.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void successCallback(String tag, Object object) {
+        Log.d("", "successCallback: ");
+    }
 
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),
-                        RegisterActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
+    @Override
+    public void errorCallback(String tag, NetworkError error) {
+
+        Log.d("errorCallback: ", error.mMessage);
     }
 }

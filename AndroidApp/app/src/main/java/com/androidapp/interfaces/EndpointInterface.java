@@ -12,9 +12,9 @@ import rx.Observable;
  */
 
 public interface EndpointInterface {
-    @POST("/auth/signin/")
+    @POST("/api/auth/signin/")
     Observable<User> createUser(@Body User user);
 
-    @POST("/auth/login/")
+    @POST("/api/auth/login/")
     Observable<Token> connectUser(@Body User user);
 }
