@@ -8,20 +8,23 @@ import android.widget.Button;
 
 import com.androidapp.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Toolbar toolbar;
-    private Button btnNewReceipt, btnViewReceipts;
+    @BindView(R.id.toolbar)         private Toolbar toolbar;
+    @BindView(R.id.btnNewReceipt)   private Button btnNewReceipt;
+    @BindView(R.id.btnViewReceipts) private Button btnViewReceipts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        btnNewReceipt = (Button) findViewById(R.id.btnNewReceipt);
-        btnViewReceipts = (Button) findViewById(R.id.btnViewReceipts);
+        ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
 
         btnNewReceipt.setOnClickListener(this);
         btnViewReceipts.setOnClickListener(this);
