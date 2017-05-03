@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.androidapp.R;
 import com.androidapp.interfaces.MyCallback;
+import com.androidapp.models.Token;
 import com.androidapp.network.Auth;
 import com.androidapp.network.NetworkError;
 
@@ -22,9 +23,12 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements MyCallback {
 
-    @BindView(R.id.btnLinkToRegisterScreen)     TextView btnLinkToRegister;
-    @BindView(R.id.email)                       EditText inputEmail;
-    @BindView(R.id.password)                    EditText inputPassword;
+    @BindView(R.id.btnLinkToRegisterScreen)
+    TextView btnLinkToRegister;
+    @BindView(R.id.username)
+    EditText inputUsername;
+    @BindView(R.id.password)
+    EditText inputPassword;
 
     private ProgressDialog pDialog;
     private String header;
@@ -34,6 +38,10 @@ public class LoginActivity extends AppCompatActivity implements MyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        String username = getIntent().getStringExtra("USERNAME");
+        if (username != null)
+            inputUsername.setText(username);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
@@ -50,13 +58,33 @@ public class LoginActivity extends AppCompatActivity implements MyCallback {
 
     @OnClick(R.id.btnLogin)
     public void login() {
-        Auth auth = new Auth(this);
-        auth.login("login", inputEmail.getText().toString(), inputPassword.getText().toString());
+        String username = inputUsername.getText().toString();
+        String password = inputPassword.getText().toString();
+
+        boolean err = false;
+
+        if (username.trim().isEmpty()) {
+            err = true;
+            inputUsername.setError(getString(R.string.field_required));
+        }
+        if (password.trim().isEmpty()) {
+            err = true;
+            inputPassword.setError(getString(R.string.field_required));
+        }
+
+        if (!err) {
+            Auth auth = new Auth(this);
+            auth.login("login", username, password);
+        }
     }
 
     @Override
     public void successCallback(String tag, Object object) {
-        Log.d("", "successCallback: ");
+        Intent i = new Intent(getApplicationContext(),
+                MainActivity.class);
+        i.putExtra("TOKEN", ((Token) object).mToken);
+        startActivity(i);
+        finish();
     }
 
     @Override

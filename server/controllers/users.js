@@ -25,7 +25,7 @@ exports.postUsers = function(req, res) {
 				else
 					res.status(409).send(err);
 			else
-				res.status(201).json({message: 'User added'});
+				res.status(201).json(user);
 		});
 	}
 };
