@@ -3,6 +3,7 @@ package com.androidapp.interfaces;
 import com.androidapp.models.Item;
 import com.androidapp.models.Token;
 import com.androidapp.models.User;
+import com.squareup.okhttp.RequestBody;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
 import retrofit.http.PUT;
+import retrofit.http.Part;
 import retrofit.http.Path;
 import rx.Observable;
 
@@ -25,12 +27,16 @@ public interface EndpointInterface {
     @POST("/api/auth/login/")
     Observable<Token> connectUser(@Body User user);
 
+    @POST("/api/image/")
+    Observable<Item> addImage(@Header("Authorization") String token, @Part("image")RequestBody image,
+                              @Part("itemId")RequestBody itemId);
+
     @POST("/api/item/")
     Observable<Item> createItem(@Header("Authorization") String token, @Body Item item);
 
     @GET("/api/item/")
     Observable<List<Item>> getItemList(@Header("Authorization") String token);
 
-    @GET("/api/item/{id}")
+    @GET("/api/item/{id}/")
     Observable<Item> getItem(@Header("Authorization") String token, @Path("id") String itemId);
 }
