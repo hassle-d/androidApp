@@ -1,5 +1,6 @@
 package com.androidapp.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -31,6 +32,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnNewReceipt:
+                Intent i = new Intent(getApplicationContext(),
+                        AddReceiptActivity.class);
+                startActivity(i);
+                finish();
                 break;
             case R.id.btnViewReceipts:
                 break;
