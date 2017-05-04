@@ -74,7 +74,7 @@ exports.getNewToken = function(req, res, next) {
 };
 
 exports.logout = function(req, res, next) {
-	var token = req.get('token');
+	var token = req.get('Authorization');
 	if (!token) { res.status(401).json({message: 'Missing token'}); return; }
 	Token.findOneAndRemove({value: token}, function(err, count) {
 		if (err) {
@@ -86,6 +86,22 @@ exports.logout = function(req, res, next) {
 	});
 
 };
+
+exports.checkToken = function(req, res, next) {
+	var token = req.get('Authorization');
+	if (!token) { res.status(400).json({message: 'Missing token'}); return; }
+	Token.findOne({value: token})
+	.then(function(token) {
+		if (token)
+			res.json({tokenValid:true})
+		else
+			res.json({tokenValid:false})
+	})
+	.catch (function(err) {
+		res.status(500).json({tokenValid:false});
+	});
+}
+
 
 exports.isValidToken = function(req, res, next) {
 	var token = req.get('Authorization');

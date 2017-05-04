@@ -3,6 +3,7 @@ package com.androidapp.interfaces;
 import com.androidapp.models.Item;
 import com.androidapp.models.Token;
 import com.androidapp.models.User;
+import com.androidapp.models.ValidToken;
 import com.squareup.okhttp.RequestBody;
 
 import java.util.List;
@@ -26,6 +27,12 @@ public interface EndpointInterface {
 
     @POST("/api/auth/login/")
     Observable<Token> connectUser(@Body User user);
+
+    @GET("/api/auth/logout")
+    Observable<Void> disconnectUser(@Header("Authorization") String token);
+
+    @GET("/api/auth/token")
+    Observable<ValidToken> checkToken(@Header("Authorization") String token);
 
     @POST("/api/image/")
     Observable<Item> addImage(@Header("Authorization") String token, @Part("image")RequestBody image,

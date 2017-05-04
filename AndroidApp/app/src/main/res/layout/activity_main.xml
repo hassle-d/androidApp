@@ -31,12 +31,12 @@
             android:text="@string/btn_new_receipt"
             android:textSize="15dp" />
 
-        <Button
-            android:id="@+id/btnViewReceipts"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_my_receipts"
-            android:textSize="15dp" />
+        <android.support.v7.widget.ListViewCompat
+            android:id="@+id/itemList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.ListViewCompat>
 
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
