@@ -18,7 +18,7 @@ import com.squareup.okhttp.ResponseBody;
 
 public class ServiceGenerator extends Activity {
 
-    public static final String API_BASE_URL = "http://192.168.1.201:3000";
+    public static final String API_BASE_URL = "http://192.168.1.46:3000";
     private static Retrofit mRetrofit = null;
 
     private static OkHttpClient httpClient = new OkHttpClient();

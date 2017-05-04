@@ -5,12 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import com.androidapp.R;
 import com.androidapp.interfaces.MyCallback;
 import com.androidapp.models.Item;
+import com.androidapp.models.Token;
 import com.androidapp.network.Items;
 import com.androidapp.network.NetworkError;
 
@@ -34,22 +33,14 @@ public class MainActivity extends AppCompatActivity implements MyCallback {
 
         mToken = getIntent().getStringExtra("TOKEN");
 
-        testEndpoints(); // A ENLEVER
-
         setSupportActionBar(toolbar);
-    }
-
-    // A ENLEVER
-    public void testEndpoints() {
-        Items items = new Items(this);
-        items.getItemList("getItemList", mToken);
-        items.addItem("addItem", mToken, "Tournevis", "2017-04-01", "2018-04-01", "2018-03-01", true, true);
     }
 
     @OnClick(R.id.btnNewReceipt)
     public void newReceipt() {
         Intent i = new Intent(getApplicationContext(),
                 AddReceiptActivity.class);
+        i.putExtra("TOKEN", mToken);
         startActivity(i);
         finish();
     }

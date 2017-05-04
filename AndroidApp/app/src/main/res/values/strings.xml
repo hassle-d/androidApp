@@ -8,7 +8,14 @@
     <string name="hint_password">Password</string>
     <string name="hint_conf_password">Confirmation Password</string>
     <string name="hint_username">Username</string>
+    <string name="hint_alias">Alias</string>
+    <string name="hint_dateBuy">Date of Purchase</string>
+    <string name="hint_dateEnd">Date end of Guaranty</string>
+    <string name="hint_dateNotification">Set a notification date</string>
 
+
+    <string name="btn_emailNotification">Email Notification</string>
+    <string name="btn_smsNotification">Sms Notification</string>
     <string name="btn_login">Log in</string>
     <string name="btn_register">Sign in</string>
     <string name="btn_logout">Logout</string>
@@ -17,6 +24,7 @@
     <string name="btn_link_to_login">Already registered? Login</string>
     <string name="btn_new_receipt">Add a new receipt or Guaranty</string>
     <string name="btn_my_receipts">View receipts and guaranties</string>
+    <string name="btn_add_receipt">Save receipt</string>
     <string name="password_not_same">Must be the same</string>
     <string name="field_required">Required</string>
 </resources>

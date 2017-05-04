@@ -1,53 +1,119 @@
 package com.androidapp.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 
 import com.androidapp.R;
-import com.androidapp.app.AppConfig;
-import com.androidapp.helper.OutputMediaFile;
+import com.androidapp.interfaces.MyCallback;
+import com.androidapp.models.Item;
+import com.androidapp.models.User;
 import com.androidapp.network.Items;
+import com.androidapp.network.NetworkError;
 
+import butterknife.BindBool;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+public class AddReceiptActivity extends AppCompatActivity implements MyCallback {
 
-public class AddReceiptActivity extends AppCompatActivity  {
+    @BindView(R.id.alias)
+    EditText inputAlias;
+    @BindView(R.id.dateBuy)
+    EditText inputDateBuy;
+    @BindView(R.id.dateEnd)
+    EditText inputDateEnd;
+    @BindView(R.id.dateNotification)
+    EditText inputDateNotification;
 
-    private ImageView imageView;
-    private Uri fileUri;
+    private SwitchCompat inputEmailNotification;
+    private SwitchCompat inputSmsNotification;
+    private boolean emailNotification;
+    private boolean smsNotification;
+
+    private String mToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_receipt);
 
-        imageView = (ImageView)findViewById(R.id.imgPreview);
-        Button capturedImageButton = (Button)findViewById(R.id.btnCapturePicture);
-        capturedImageButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent photoCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                OutputMediaFile outputMediaFile = new OutputMediaFile();
+        inputEmailNotification = (SwitchCompat) findViewById(R.id.emailNotification);
+        inputSmsNotification = (SwitchCompat) findViewById(R.id.smsNotification);
+        mToken = getIntent().getStringExtra("TOKEN");
 
-                fileUri = outputMediaFile.getOutputMediaFileUri(AppConfig.MEDIA_TYPE_IMAGE);
-                startActivityForResult(photoCaptureIntent, AppConfig.CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+        inputEmailNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    emailNotification = true;
+                } else {
+                    emailNotification = false;
+                }
             }
         });
+
+        inputSmsNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    smsNotification = true;
+                } else {
+                    smsNotification = false;
+                }
+            }
+        });
+        ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.btnAddReceipt)
+    public void addReceipt() {
+        String alias = inputAlias.getText().toString();
+        String dateBuy = inputDateBuy.getText().toString();
+        String dateEnd = inputDateEnd.getText().toString();
+        String dateNotification = inputDateNotification.getText().toString();
+
+        boolean err = false;
+
+        if (alias.trim().isEmpty()) {
+            err = true;
+            inputAlias.setError(getString(R.string.field_required));
+        }
+        if (dateBuy.trim().isEmpty()) {
+            err = true;
+            inputDateBuy.setError(getString(R.string.field_required));
+        }
+        if (dateEnd.trim().isEmpty()) {
+            err = true;
+            inputDateEnd.setError(getString(R.string.field_required));
+        }
+        if (dateNotification.trim().isEmpty()) {
+            err = true;
+            inputDateNotification.setError(getString(R.string.field_required));
+        }
+
+        if (!err){
+        Items items = new Items(this);
+        items.addItem("addItem", mToken, alias, dateBuy, dateEnd, dateNotification, emailNotification, smsNotification);
+        }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(AppConfig.CAMERA_CAPTURE_IMAGE_REQUEST_CODE == requestCode && resultCode == RESULT_OK){
-            Bitmap bitmap = (Bitmap)data.getExtras().get("data");
-            imageView.setImageBitmap(bitmap);
-        }
+    public void successCallback(String tag, Object object) {
+        Log.d("", "successCallback: ");
+        Intent i = new Intent(getApplicationContext(),
+                AddPicToReceiptActivity.class);
+        i.putExtra("TOKEN", mToken);
+        i.putExtra("idItem", ((Item) object).mId);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
+    public void errorCallback(String tag, NetworkError error) {
+        Log.d("errorCallback: ", error.mMessage);
     }
 }
