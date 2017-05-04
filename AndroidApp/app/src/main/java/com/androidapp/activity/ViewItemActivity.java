@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidapp.R;
@@ -19,12 +20,24 @@ import com.androidapp.models.ValidToken;
 import com.androidapp.network.Auth;
 import com.androidapp.network.Items;
 import com.androidapp.network.NetworkError;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ViewItemActivity extends AppCompatActivity implements MyCallback {
+
+    @BindView(R.id.image)
+    ImageView mImage;
+    @BindView(R.id.alias)
+    TextView mAlias;
+    @BindView(R.id.end)
+    TextView mEnd;
+    @BindView(R.id.buy)
+    TextView mBuy;
+    @BindView(R.id.notifications)
+    TextView mNotifications;
 
     private ProgressDialog pDialog;
     private String header;
@@ -50,6 +63,18 @@ public class ViewItemActivity extends AppCompatActivity implements MyCallback {
 
     private void setInfos(Item item) {
         Log.d("setInfos: ", item.mAlias);
+        if (item.mImages.size()>0) {
+            Picasso.with(this)
+                    .load(getResources().getString(R.string.api_url) + "/api/image/" + item.mImages.get(0))
+                    .placeholder(R.drawable.blank2)
+                    .error(R.drawable.blank2)
+                    .resize(70, 70)
+                    .into(mImage);
+        }
+        mAlias.setText(item.mAlias);
+        mBuy.setText(item.mDateBuy.substring(0, 10));
+        mEnd.setText(item.mDateEnd.substring(0, 10));
+        mNotifications.setText(item.mDateNotification.substring(0, 10));
     }
 
     @Override
