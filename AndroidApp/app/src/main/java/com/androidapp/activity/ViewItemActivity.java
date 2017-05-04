@@ -47,7 +47,7 @@ public class ViewItemActivity extends AppCompatActivity implements MyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_view_item);
         ButterKnife.bind(this);
 
         mToken = getIntent().getStringExtra("TOKEN");
