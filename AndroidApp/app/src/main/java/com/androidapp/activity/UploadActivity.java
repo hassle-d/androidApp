@@ -63,7 +63,6 @@ public class UploadActivity extends AppCompatActivity implements MyCallback {
     @OnClick(R.id.btnUploadPicture)
     public void uploadImage() {
         Items items = new Items(this);
-        items.getItemList("getItemList", token);
         items.addImage("", token, Uri.parse(filePath), idItem);
     }
 

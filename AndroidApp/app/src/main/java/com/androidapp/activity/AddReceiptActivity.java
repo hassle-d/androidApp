@@ -15,6 +15,8 @@ import com.androidapp.models.User;
 import com.androidapp.network.Items;
 import com.androidapp.network.NetworkError;
 
+import java.util.List;
+
 import butterknife.BindBool;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -104,12 +106,20 @@ public class AddReceiptActivity extends AppCompatActivity implements MyCallback 
     @Override
     public void successCallback(String tag, Object object) {
         Log.d("", "successCallback: ");
-        Intent i = new Intent(getApplicationContext(),
-                AddPicToReceiptActivity.class);
-        i.putExtra("TOKEN", mToken);
-        i.putExtra("idItem", ((Item) object).mId);
-        startActivity(i);
-        finish();
+        switch (tag) {
+            case "getItemList":
+                List<Item> items = (List<Item>) object;
+                Log.d(tag, "NB Items " + items.size());
+                break;
+            case "addItem":
+                Intent i = new Intent(getApplicationContext(),
+                        AddPicToReceiptActivity.class);
+                i.putExtra("TOKEN", mToken);
+                i.putExtra("idItem", ((Item) object).mId);
+                startActivity(i);
+                finish();
+                break;
+        }
     }
 
     @Override
