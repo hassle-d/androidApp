@@ -3,17 +3,21 @@ package com.androidapp.activity;
 import android.accounts.NetworkErrorException;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.androidapp.R;
 import com.androidapp.interfaces.MyCallback;
 import com.androidapp.models.Token;
+import com.androidapp.models.ValidToken;
 import com.androidapp.network.Auth;
 import com.androidapp.network.NetworkError;
 
@@ -29,15 +33,28 @@ public class LoginActivity extends AppCompatActivity implements MyCallback {
     EditText inputUsername;
     @BindView(R.id.password)
     EditText inputPassword;
+    @BindView(R.id.rememberMe)
+    CheckBox inputRemember;
 
     private ProgressDialog pDialog;
     private String header;
+    private String mToken;
+    private Auth mAuth;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        mAuth = new Auth(this);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mToken = preferences.getString(getString(R.string.saved_token), null);
+
+        if (mToken != null) {
+            mAuth.checkToken("checkToken", mToken);
+        }
 
         String username = getIntent().getStringExtra("USERNAME");
         if (username != null)
@@ -73,8 +90,7 @@ public class LoginActivity extends AppCompatActivity implements MyCallback {
         }
 
         if (!err) {
-            Auth auth = new Auth(this);
-            auth.login("login", username, password);
+            mAuth.login("login", username, password);
         }
     }
 
@@ -82,9 +98,29 @@ public class LoginActivity extends AppCompatActivity implements MyCallback {
     public void successCallback(String tag, Object object) {
         Intent i = new Intent(getApplicationContext(),
                 MainActivity.class);
-        i.putExtra("TOKEN", ((Token) object).mToken);
-        startActivity(i);
-        finish();
+
+        switch (tag) {
+            case "login":
+                mToken = ((Token) object).mToken;
+                if (inputRemember.isChecked()) {
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString(getString(R.string.saved_token), mToken);
+                    editor.apply();
+                }
+                i.putExtra("TOKEN", mToken);
+                startActivity(i);
+                finish();
+                break;
+            case "checkToken":
+                Boolean valid = ((ValidToken)object).mValid;
+                if (valid) {
+                    i.putExtra("TOKEN", mToken);
+                    startActivity(i);
+                    finish();
+                }
+                break;
+        }
     }
 
     @Override

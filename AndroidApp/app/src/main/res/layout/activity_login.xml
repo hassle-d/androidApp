@@ -20,7 +20,8 @@
             <EditText android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_username"/>
+                android:hint="@string/hint_username"
+                android:maxLines="1"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -32,8 +33,24 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_password"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:maxLines="1"/>
         </android.support.design.widget.TextInputLayout>
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rememberMe"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/remember_me"/>
+        </android.support.v7.widget.LinearLayoutCompat>
+
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btnLogin"

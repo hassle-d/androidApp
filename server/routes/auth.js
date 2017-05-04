@@ -13,4 +13,7 @@ router.route('/auth/login')
 router.route('/auth/logout')
 	.get(authController.logout);
 
+router.route('/auth/token')
+	.get(authController.checkToken);
+
 module.exports = router;

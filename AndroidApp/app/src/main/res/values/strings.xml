@@ -19,4 +19,10 @@
     <string name="btn_my_receipts">View receipts and guaranties</string>
     <string name="password_not_same">Must be the same</string>
     <string name="field_required">Required</string>
+    <string name="saved_token">SAVED_TOKEN</string>
+    <string name="remember_me">Remember me</string>
+    <string name="action_logout">logout</string>
+    <string name="label_end">End on :</string>
+    <string name="label_buy">Buy on :</string>
+    <string name="api_url">sssss</string>
 </resources>
