@@ -7,6 +7,8 @@ package com.androidapp.network;
 import android.app.Activity;
 import android.content.Context;
 
+import com.androidapp.App;
+import com.androidapp.R;
 import com.squareup.okhttp.OkHttpClient;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
@@ -18,13 +20,13 @@ import com.squareup.okhttp.ResponseBody;
 
 public class ServiceGenerator extends Activity {
 
-    public static final String API_BASE_URL = "http://192.168.1.46:3000";
+    public static final String API_BASE_URL = "http://192.168.1.201:3000";
     private static Retrofit mRetrofit = null;
 
     private static OkHttpClient httpClient = new OkHttpClient();
     private static Retrofit.Builder builder =
             new Retrofit.Builder()
-                    .baseUrl(API_BASE_URL)
+                    .baseUrl(App.getContext().getString(R.string.api_url))
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create());
 

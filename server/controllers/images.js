@@ -46,7 +46,7 @@ exports.getImage = function(req, res) {
             console.log(img.itemId);
             var data = fs.readFileSync('./uploads/' + file);
             res.contentType(img.type);
-            res.json(data);                
+            res.send(data);                
         }
         else
             res.status(404).json();

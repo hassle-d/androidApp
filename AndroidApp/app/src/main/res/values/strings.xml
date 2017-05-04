@@ -32,5 +32,5 @@
     <string name="action_logout">logout</string>
     <string name="label_end">End on :</string>
     <string name="label_buy">Buy on :</string>
-    <string name="api_url">sssss</string>
+    <string name="api_url">http://192.168.1.201:3000</string>
 </resources>

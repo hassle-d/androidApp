@@ -2,6 +2,7 @@ package com.androidapp.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,11 +86,12 @@ public class ItemListAdapter extends BaseAdapter {
         holder.alias.setText(tempValues.mAlias);
         holder.dateEnd.setText(tempValues.mDateEnd.substring(0, 10));
         if (tempValues.mImages.size()>0) {
+            Log.d("getView: ", activity.getResources().getString(R.string.api_url) + "/api/image/" + tempValues.mImages.get(0));
             Picasso.with(activity)
-                    .load(activity.getResources().getString(R.string.api_url) + tempValues.mImages.get(0))
+                    .load(activity.getResources().getString(R.string.api_url) + "/api/image/" + tempValues.mImages.get(0))
                     .placeholder(R.drawable.blank2)
                     .error(R.drawable.blank2)
-                    .resize(150, 150)
+                    .resize(70, 70)
                     .into(holder.image);
         }
         else {
