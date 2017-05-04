@@ -19,8 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
-        </activity>
+        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
@@ -29,7 +28,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.AddReceiptActivity"></activity>
+        <activity android:name=".activity.AddPicToReceiptActivity" />
+        <activity android:name=".activity.AddReceiptActivity" />
+        <activity android:name=".activity.UploadActivity"></activity>
     </application>
 
 </manifest>

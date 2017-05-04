@@ -19,6 +19,7 @@ import com.androidapp.interfaces.ItemListAdapterCallback;
 import com.androidapp.interfaces.MyCallback;
 import com.androidapp.models.Item;
 import com.androidapp.network.Auth;
+import com.androidapp.models.Token;
 import com.androidapp.network.Items;
 import com.androidapp.network.NetworkError;
 
@@ -68,10 +69,12 @@ public class MainActivity extends AppCompatActivity implements MyCallback,ItemLi
         return super.onOptionsItemSelected(item);
     }
 
+
     @OnClick(R.id.btnNewReceipt)
     public void newReceipt() {
         Intent i = new Intent(getApplicationContext(),
                 AddReceiptActivity.class);
+        i.putExtra("TOKEN", mToken);
         startActivity(i);
         finish();
     }
