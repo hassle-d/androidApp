@@ -18,6 +18,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".App"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.RegisterActivity" />
@@ -31,6 +32,7 @@
         <activity android:name=".activity.AddPicToReceiptActivity" />
         <activity android:name=".activity.AddReceiptActivity" />
         <activity android:name=".activity.UploadActivity"></activity>
+        <activity android:name=".activity.ViewItemActivity"></activity>
     </application>
 
 </manifest>

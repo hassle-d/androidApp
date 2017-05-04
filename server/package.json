@@ -13,6 +13,7 @@
     "oauth2orize": "^1.1.1",
     "passport": "^0.3.0",
     "passport-http": "^0.3.0",
-    "passport-http-bearer": "^1.0.1"
+    "passport-http-bearer": "^1.0.1",
+    "bluebird": "3.5.0"
   }
 }

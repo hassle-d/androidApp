@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements MyCallback,ItemLi
                 AddReceiptActivity.class);
         i.putExtra("TOKEN", mToken);
         startActivity(i);
-        finish();
     }
 
     @Override
@@ -105,6 +104,11 @@ public class MainActivity extends AppCompatActivity implements MyCallback,ItemLi
     @Override
     public void showItem(String itemId) {
         Log.d("showItem: ", itemId);
+        Intent i = new Intent(getApplicationContext(),
+                ViewItemActivity.class);
+        i.putExtra("TOKEN", mToken);
+        i.putExtra("ITEMID", itemId);
+        startActivity(i);
     }
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {
