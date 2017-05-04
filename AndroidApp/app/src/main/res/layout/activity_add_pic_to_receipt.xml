@@ -26,10 +26,21 @@
         android:id="@+id/btnCapturePicture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_alignParentLeft="true"
         android:layout_marginBottom="20dp"
         android:text="Take the picture"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btnValidatePicture"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload picture"
+        android:layout_alignBaseline="@+id/btnCapturePicture"
+        android:layout_alignBottom="@+id/btnCapturePicture"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="13dp" />
 
 </RelativeLayout>

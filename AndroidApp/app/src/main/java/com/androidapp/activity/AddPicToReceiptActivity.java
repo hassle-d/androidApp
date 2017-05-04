@@ -18,7 +18,10 @@ import com.androidapp.interfaces.MyCallback;
 import com.androidapp.models.Item;
 import com.androidapp.network.Items;
 import com.androidapp.network.NetworkError;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.RequestBody;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,6 +33,7 @@ public class AddPicToReceiptActivity extends AppCompatActivity implements MyCall
     private Uri fileUri;
     private String token;
     private String idItem;
+    private Button validatePictureButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,8 @@ public class AddPicToReceiptActivity extends AppCompatActivity implements MyCall
 
         imageView = (ImageView)findViewById(R.id.imgPreview);
         Button capturedImageButton = (Button)findViewById(R.id.btnCapturePicture);
+        validatePictureButton = (Button)findViewById(R.id.btnValidatePicture);
+
         capturedImageButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,30 +57,20 @@ public class AddPicToReceiptActivity extends AppCompatActivity implements MyCall
 
                 fileUri = outputMediaFile.getOutputMediaFileUri(AppConfig.MEDIA_TYPE_IMAGE);
 
+                Log.d("", "URI ==: " + fileUri);
+
                 startActivityForResult(photoCaptureIntent, AppConfig.CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
             }
         });
-    }
 
-    /**
-     * Here we store the file url as it will be null after returning from camera
-     * app
-     */
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+        validatePictureButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Items items = new Items(getApplicationContext());
 
-        // save file url in bundle as it will be null on screen orientation
-        // changes
-        outState.putParcelable("file_uri", fileUri);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        // get the file url
-        fileUri = savedInstanceState.getParcelable("file_uri");
+                items.addImage("addImage", token, fileUri, idItem);
+            }
+        });
     }
 
     @Override
@@ -83,8 +79,7 @@ public class AddPicToReceiptActivity extends AppCompatActivity implements MyCall
         if(AppConfig.CAMERA_CAPTURE_IMAGE_REQUEST_CODE == requestCode && resultCode == RESULT_OK){
             Bitmap bitmap = (Bitmap)data.getExtras().get("data");
             imageView.setImageBitmap(bitmap);
-            Items items = new Items(this);
-            items.addImage("addImage", token, fileUri, idItem);
+            validatePictureButton.setVisibility(View.VISIBLE);
         }
     }
 
